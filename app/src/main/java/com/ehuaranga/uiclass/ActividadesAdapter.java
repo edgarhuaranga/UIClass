@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 /**
@@ -19,6 +20,11 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
     HashMap<String, ArrayList<Evento>> programaDia;
 
 
+    public ActividadesAdapter(Context context, HashMap<String, ArrayList<Evento>> programaDia){
+        this.context = context;
+        this.programaDia = programaDia;
+    }
+
     @Override
     public ActividadesAdapter.ViewHolderActividad onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).
@@ -29,7 +35,14 @@ public class ActividadesAdapter extends RecyclerView.Adapter<ActividadesAdapter.
 
     @Override
     public void onBindViewHolder(ActividadesAdapter.ViewHolderActividad holder, int position) {
+        ArrayList<String> horarios = new ArrayList(programaDia.keySet());
+        Collections.sort(horarios);
 
+        String hora = horarios.get(position);
+        ArrayList<Evento> eventos = programaDia.get(hora);
+
+        holder.textviewHorario.setText(hora);
+        holder.textViewNumEventos.setText(eventos.size()+"\teventos");
     }
 
     @Override
